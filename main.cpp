@@ -24,57 +24,57 @@ class Lexer {
 
         void get_token_function () {
             while (i < src.length())
-    {
-        char f = src[i];
+        {
+                char f = src[i];
 
-        if (f == '#')
-        {
-            Token_type type = Token_type::Hash;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
+                if (f == '#')
+                {
+                    Token_type type = Token_type::Hash;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
+                if (f == ':')
+                {
+                    Token_type type = Token_type::Print;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
+                if (f == '"')
+                {
+                    Token_type type = Token_type::String;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
+                if (f == '(')
+                {
+                    Token_type type = Token_type::Bracket_open;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
+                if (f == ')')
+                {
+                    Token_type type = Token_type::Bracket_close;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
+                else {
+                    Token_type type = Token_type::Unkown;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(type, str, line));
+                    i++;
+                    continue;
+                }
         }
-        if (f == ':')
-        {
-            Token_type type = Token_type::Print;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
-        }
-        if (f == '"')
-        {
-            Token_type type = Token_type::String;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
-        }
-        if (f == '(')
-        {
-            Token_type type = Token_type::Bracket_open;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
-        }
-        if (f == ')')
-        {
-            Token_type type = Token_type::Bracket_close;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
-        }
-        else {
-            Token_type type = Token_type::Unkown;
-            string str = string(1, f);
-            tokens_vector.push_back(Token(type, str, line));
-            i++;
-            continue;
-        }
-    }
         }
 };
 
