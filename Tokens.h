@@ -8,7 +8,6 @@ enum class Token_type {
     Unkown,
     String,
     Hash,
-
     Print,
     Bracket_open,
     Bracket_close,    
