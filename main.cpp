@@ -160,9 +160,9 @@ private:
 class Analyser
 {
     public:
-        Analyser(vector<Token> &token)
+        Analyser(vector<Token>& token)
         {
-            vector<Token> tokens = token;
+            tokens = token;
         };
 
         void run(){
