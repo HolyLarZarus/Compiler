@@ -2,6 +2,7 @@
 #include <Tokens.h>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 class Lexer
@@ -34,49 +35,65 @@ private:
 
             if (f == '#')
             {
-                Token_type type = Token_type::Hash;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::Hash, str, line));
                 i++;
+                string str_2;
+                while (src[i] != '\n')
+                {
+                    str_2.push_back(src[i]);
+                    i++;
+                }
+                tokens_vector.push_back(Token(Token_type::HashContent, str_2, line));
                 continue;
             }
             if (f == ':')
             {
-                Token_type type = Token_type::Print;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::Print, str, line));
                 i++;
                 continue;
             }
             if (f == '"')
             {
-                Token_type type = Token_type::String;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::String, str, line));
                 i++;
+                
+                string str_2 = "";
+                while (src[i] !=  '"' && i < src.length())
+                {
+                    str_2.push_back(src[i]);
+                    i++;
+                }
+                if (src[i] == '"' && i < src.length())
+                {
+                    tokens_vector.push_back(Token(Token_type::StringContent, str_2, line));
+                    i++;
+                    string str = string(1, f);
+                    tokens_vector.push_back(Token(Token_type::String, str, line));
+                    i++;
+                }
                 continue;
             }
             if (f == '(')
             {
-                Token_type type = Token_type::Bracket_open;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::Bracket_open, str, line));
                 i++;
                 continue;
             }
             if (f == ')')
             {
-                Token_type type = Token_type::Bracket_close;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::Bracket_close, str, line));
                 i++;
                 continue;
             }
             else
             {
-                Token_type type = Token_type::Unkown;
                 string str = string(1, f);
-                tokens_vector.push_back(Token(type, str, line));
+                tokens_vector.push_back(Token(Token_type::Unkown, str, line));
                 i++;
                 continue;
             }
@@ -90,34 +107,32 @@ public:
     Parser(vector<Token> &token)
     {
         tokens = token;
+        i = 0;
+        advance();
     }
 
 private:
     vector<Token> tokens;
-    size_t i = 0;
+    size_t i;
     Token_type crnt_type;
     void run()
     {
 
         while (i < tokens.size())
         {
-            crnt_type = tokens[i].type;
             if (crnt_type == Token_type::Print)
             {
                 predict(Token_type::Bracket_open);
-                i += 2;
                 if (crnt_type == Token_type::String)
                 {
-                    i++;
+                    advance();
                     handlestring();
                 }
                 else
                 {
                     cout << "Syntax Error in Line" << tokens[i].line;
                 }
-                i--;
                 predict(Token_type::Bracket_close);
-                i += 2;
             }
 
             if (crnt_type == Token_type::Hash)
@@ -134,26 +149,36 @@ private:
 
     void handlestring()
     {
-
-        while (crnt_type != Token_type::String && crnt_type != Token_type::LineBreak)
-        {
-            i++;
-        }
+        predict(Token_type::StringContent);
         predict(Token_type::String);
-        i++;
+        
     }
 
-    Token_type predict(Token_type current)
+    void advance() {
+        if (i < tokens.size())
+        {
+            crnt_type = tokens[i].type;
+            i++;
+        }
+        else{
+            cout << "Pogramm zu ende";
+        }
+    }
+
+    void predict(Token_type current)
     {
+        Token_type prediction = tokens[i+1].type;
 
-        Token_type prediction = tokens[i + 1].type;
-
-        if (current != prediction)
+        if (current == prediction)
+        {
+            advance();
+        }
+        else 
         {
             cout << "Syntax Error!";
             exit(1);
         }
-        return prediction;
+        
     }
 };
 
@@ -178,6 +203,7 @@ class Analyser
 
 int main()
 {
+
     cout << "Läuft";
     return 0;
 }
