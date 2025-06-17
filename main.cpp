@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Tokens.h>
+#include "Tokens.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -220,6 +220,7 @@ int main()
     for(int i = 0;  i < file.size(); i++) {
         cout << file[i];
     }
+    File.close();
 
     Lexer lexer(input);
     vector<Token> tokens = lexer.lex();
