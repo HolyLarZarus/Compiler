@@ -203,7 +203,10 @@ class Analyser
 
 int main()
 {
+      
     vector<string> file;
+    string input = string(file.begin(), file.end());
+  
     ifstream File("input.txt");
     if (!File.is_open()) {
         cerr << "Fehler: Datei konnte nicht geöffnet werden!" << endl;
@@ -213,8 +216,14 @@ int main()
     while (getline(File, line)) {
         file.push_back(line);
 }
+    
     for(int i = 0;  i < file.size(); i++) {
         cout << file[i];
     }
+
+    Lexer lexer(input);
+    vector<Token> tokens = lexer.lex();
+    Parser parser(tokens);
+
     return 0;
 }
