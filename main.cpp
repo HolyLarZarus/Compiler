@@ -203,7 +203,18 @@ class Analyser
 
 int main()
 {
-
-    cout << "Läuft";
+    vector<string> file;
+    ifstream File("input.txt");
+    if (!File.is_open()) {
+        cerr << "Fehler: Datei konnte nicht geöffnet werden!" << endl;
+        return 1; 
+}
+    string line;
+    while (getline(File, line)) {
+        file.push_back(line);
+}
+    for(int i = 0;  i < file.size(); i++) {
+        cout << file[i];
+    }
     return 0;
 }
