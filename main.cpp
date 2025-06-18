@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cctype>
 using namespace std;
 
 class Lexer
@@ -33,6 +34,23 @@ private:
         {
             char f = src[i];
 
+            if (f == '=') {
+            string str = string(1, f);
+            tokens_vector.push_back(Token(Token_type::Equal, str, line));
+            i++;
+            continue;
+        }
+
+            if (isalpha(f)) {
+            string key;
+            Token_type type = Token_type::Identifier;
+            for (i; i < src.length() && ((isalnum(src[i])) || src[i] == '_'); i++)
+            {
+                key.push_back(src[i]);
+            }
+            tokens_vector.push_back(Token(type, key, line));
+            continue;
+            }
             if (f == '#')
             {
                 string str = string(1, f);
@@ -119,30 +137,43 @@ private:
     {
 
         while (i < tokens.size())
-        {
-            if (crnt_type == Token_type::Print)
+        {   
+            switch (crnt_type)
             {
+            case Token_type::Identifier :
+                predict(Token_type::Equal);
+                predict(Token_type::String);
+                handlestring();
+                break;
+            case Token_type::Print :
                 predict(Token_type::Bracket_open);
                 if (crnt_type == Token_type::String)
                 {
                     advance();
                     handlestring();
                 }
+                if (crnt_type == Token_type::Identifier)
+                {
+                    advance();
+                }
+                
                 else
                 {
                     cout << "Syntax Error in Line" << tokens[i].line;
                 }
                 predict(Token_type::Bracket_close);
-            }
-
-            if (crnt_type == Token_type::Hash)
-            {
-                i++;
+                break;
+            case Token_type::Hash :
+                advance();
                 while (crnt_type != Token_type::LineBreak)
                 {
-                    i++;
+                    advance();
                 }
-                i++;
+                break;
+            default:
+                cout << "Syntax Error in Line" << tokens[i].line;
+                exit(1);
+                break;
             }
         }
     }
@@ -224,6 +255,6 @@ int main()
     Lexer lexer(input);
     vector<Token> tokens = lexer.lex();
     Parser parser(tokens);
-    
+
     return 0;
 }
