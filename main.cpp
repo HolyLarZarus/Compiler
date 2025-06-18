@@ -138,7 +138,7 @@ public:
     {
         tokens = token;
         i = 0;
-        advance();
+        crnt_type = tokens[i].type;
     }
 
 private:
