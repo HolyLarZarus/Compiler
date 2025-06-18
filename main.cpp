@@ -34,6 +34,18 @@ private:
         {
             char f = src[i];
 
+            if (isspace(f)) {
+                if (f == '\n')
+                {
+                    line++;
+                    Token_type type = Token_type::LineBreak;
+                    string str = "\n";
+                    tokens_vector.push_back(Token(type, str, line));
+                }
+                i++;
+                continue;
+        }
+
             if (f == '=') {
             string str = string(1, f);
             tokens_vector.push_back(Token(Token_type::Equal, str, line));
@@ -213,24 +225,6 @@ private:
     }
 };
 
-class Analyser
-{
-    public:
-        Analyser(vector<Token>& token)
-        {
-            tokens = token;
-        };
-
-        void run(){
-            for (size_t i = 0; i < tokens.size(); i++)
-            {
-                /* code */
-            }
-            
-        }
-    private:
-        vector<Token> tokens;
-};
 
 int main()
 {
