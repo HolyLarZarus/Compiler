@@ -6,6 +6,8 @@
 enum class Token_type {
     LineBreak,
     Unkown,
+    Identifier,
+    Equal,
     String,
     StringContent,
     Hash,
