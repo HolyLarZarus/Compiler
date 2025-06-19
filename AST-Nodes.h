@@ -1,49 +1,55 @@
+#pragma once
+
 #include <iostream>
 #include <string>
-#pragma once;
+#include <stdexcept>
 using namespace std;
 
 enum class Node_type {
+    Root,
     StringContent,
     Print,
     Variable,
     Comment,
 };
 
-struct AST_Nodes
-{
+struct AST_Node {
     Node_type type;
-    string variable_name;
-    string string_content;
+    std::string variable_name;
+    std::string string_content;
 
+    AST_Node(const std::string& cont,
+             bool isdeclared,
+             bool isdeclaration,
+             Node_type t)
+      : type(t),
+        string_content((t == Node_type::StringContent) ? cont : ""),
+        variable_name((t == Node_type::Variable) ? cont : "")
+    {
+        switch (type) {
+            case Node_type::StringContent:
+                break;
 
-    AST_Nodes (string& cont, bool isdeclared, bool isdeclartion, Node_type t) {
-        string content = cont;
-        bool declared = isdeclared; 
-        bool declaration = isdeclartion;
-        if (t == Node_type::StringContent)
-        {
-            Node_type type = t;
-            return;
+            case Node_type::Variable:
+                if (isdeclared && !isdeclaration) {
+                    cout << "Syntax Error in Line";
+                    exit(1);
+                }
+                if (!isdeclared && isdeclaration) {
+                    break;
+                }
+                if (isdeclared && isdeclaration) {
+                    cout << "Syntax Error in Line";
+                    exit(1);
+                }
+                break;
+            case Node_type::Print:
+                break;
+
+            case Node_type::Comment:
+                break;
+            default:
+                break;
         }
-        if (t == Node_type::Variable)
-        {
-            Node_type type = t;
-            if (declared && !declaration)
-            {
-                cout << "Syntax Error";
-                exit(1);
-            }
-            if (declared && declaration)
-            {
-                return;
-            }
-            if (declaration && !declared)
-            {
-                return;
-            }
-        }
-        
-        
     }
 };
