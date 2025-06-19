@@ -21,5 +21,29 @@ struct AST_Nodes
         string content = cont;
         bool declared = isdeclared; 
         bool declaration = isdeclartion;
+        if (t == Node_type::StringContent)
+        {
+            Node_type type = t;
+            return;
+        }
+        if (t == Node_type::Variable)
+        {
+            Node_type type = t;
+            if (declared && !declaration)
+            {
+                cout << "Syntax Error";
+                exit(1);
+            }
+            if (declared && declaration)
+            {
+                return;
+            }
+            if (declaration && !declared)
+            {
+                return;
+            }
+        }
+        
+        
     }
 };
