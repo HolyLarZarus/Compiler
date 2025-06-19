@@ -17,28 +17,9 @@ struct AST_Nodes
     string string_content;
 
 
-    AST_Nodes (string& variable, bool isdeclared) {
-        string name = variable;
-        Node_type type = Node_type::Variable;
-        bool declared = isdeclared;
+    AST_Nodes (string& cont, bool isdeclared, bool isdeclartion, Node_type t) {
+        string content = cont;
+        bool declared = isdeclared; 
+        bool declaration = isdeclartion;
     }
-    AST_Nodes (string& con) {
-        string content = con;
-        Node_type type = Node_type::StringContent;
-    }
-    AST_Nodes () {
-        Node_type type = Node_type::Print;
-    }
-    AST_Nodes () {
-        Node_type type = Node_type::Comment;        
-    }
-
-    /*
-    
-    
-    Wichtig!!!
-    Alle kontruktoren in einen Zusammenfassen mit inneren If statements
-    
-    
-    */
 };
