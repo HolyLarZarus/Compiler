@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <vector>
 using namespace std;
 
 enum class Node_type {
@@ -15,10 +16,11 @@ enum class Node_type {
 
 struct AST_Node {
     Node_type type;
-    std::string variable_name;
-    std::string string_content;
+    string variable_name;
+    string string_content;
+    vector<AST_Node> children;
 
-    AST_Node(const std::string& cont,
+    AST_Node(const string& cont,
              bool isdeclared,
              bool isdeclaration,
              Node_type t)
@@ -52,4 +54,7 @@ struct AST_Node {
                 break;
         }
     }
+    void add_children(AST_Node child) {
+            children.push_back(move(child));
+        }
 };
