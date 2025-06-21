@@ -157,6 +157,7 @@ private:
                 predict(Token_type::Equal);
                 predict(Token_type::String);
                 handlestring();
+                
                 break;
             case Token_type::Print :
                 predict(Token_type::Bracket_open);
@@ -192,7 +193,7 @@ private:
     }
 
     void handlestring()
-    {
+    {   
         predict(Token_type::StringContent);
         predict(Token_type::String);
         
