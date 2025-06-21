@@ -146,9 +146,10 @@ private:
     vector<Token> tokens;
     size_t i;
     Token_type crnt_type;
+    AST_Node root = AST_Node("", false, false, Node_type::Root);
     void run()
     {
-        auto root = AST_Node("", false, false, Node_type::Root);
+        
         while (i < tokens.size())
         {   
             switch (crnt_type)
