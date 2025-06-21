@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <cctype>
+#include "AST-Nodes.h"
 using namespace std;
 
 class Lexer
@@ -147,7 +148,7 @@ private:
     Token_type crnt_type;
     void run()
     {
-
+        auto root = AST_Node("", false, false, Node_type::Root);
         while (i < tokens.size())
         {   
             switch (crnt_type)
