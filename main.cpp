@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cctype>
 #include "AST-Nodes.h"
+#include <algorithm>
 using namespace std;
 
 class Lexer
@@ -144,6 +145,7 @@ public:
     }
 
 private:
+    vector<string> identifiers;
     vector<Token> tokens;
     size_t i;
     Token_type crnt_type;
@@ -157,7 +159,14 @@ private:
             switch (crnt_type)
             {
             case Token_type::Identifier : {
-                AST_Node name = AST_Node(tokens[i].lexem, false, true, Node_type::Variable);
+                auto ges = find(identifiers.begin(), identifiers.end(), crnt_lex);
+                if (ges != identifiers.end())
+                {
+                    AST_Node name = AST_Node(crnt_lex, true, false, Node_type::Variable);
+                } else {
+                    AST_Node name = AST_Node(crnt_lex, false, true, Node_type::Variable);
+                }
+                
                 predict(Token_type::Equal);
                 predict(Token_type::String);
                 handlestring();
