@@ -67,20 +67,16 @@ private:
             }
             if (f == '/' && src[i+1] == '/')
             {   
-                string str = "//";
-                tokens_vector.push_back(Token(Token_type::Mulitline_begin, str, line));
                 while (src[i] == '/' && src[i+1] == '/')
                 {
                     i++;
                 }
-                tokens_vector.push_back(Token(Token_type::Multiline_end, str, line));
+      
                 continue;  
             }
             
             if (f == '#')
             {
-                string str = string(1, f);
-                tokens_vector.push_back(Token(Token_type::Hash, str, line));
                 i++;
                 while (src[i] != '\n')
                 {
@@ -219,13 +215,6 @@ private:
                 predict(Token_type::Bracket_close);
                 break;
             }
-            case Token_type::Hash :
-                advance();
-                while (crnt_type != Token_type::LineBreak)
-                {
-                    advance();
-                }
-                break;
             default:
                 cout << "Syntax Error in Line" << tokens[i].line;
                 exit(1);
