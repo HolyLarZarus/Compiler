@@ -140,12 +140,14 @@ public:
         tokens = token;
         i = 0;
         crnt_type = tokens[i].type;
+        crnt_lex = token[i].lexem;
     }
 
 private:
     vector<Token> tokens;
     size_t i;
     Token_type crnt_type;
+    string crnt_lex;
     AST_Node root = AST_Node("", false, false, Node_type::Root);
     void run()
     {
@@ -154,12 +156,14 @@ private:
         {   
             switch (crnt_type)
             {
-            case Token_type::Identifier :
+            case Token_type::Identifier : {
+                AST_Node name = AST_Node(tokens[i].lexem, false, true, Node_type::Variable);
                 predict(Token_type::Equal);
                 predict(Token_type::String);
                 handlestring();
                 
                 break;
+            }
             case Token_type::Print :
                 predict(Token_type::Bracket_open);
                 if (crnt_type == Token_type::String)
@@ -201,10 +205,11 @@ private:
     }
 
     void advance() {
+        i++;
         if (i < tokens.size())
         {
             crnt_type = tokens[i].type;
-            i++;
+            crnt_lex = tokens[i].lexem;
         }
         else{
             cout << "Pogramm zu ende";
