@@ -152,6 +152,7 @@ private:
     string crnt_lex;
     AST_Node root = AST_Node("", Node_type::Root);
     AST_Node name = AST_Node("", Node_type::Variable);
+    AST_Node con = AST_Node("", Node_type::StringContent);
     void run()
     {
         
@@ -168,11 +169,13 @@ private:
                     AST_Node name = AST_Node(crnt_lex, Node_type::VariableDeclare);
                     identifiers.push_back(crnt_lex);
                 }
-                root.add_children(name);
+                AST_Node equal = AST_Node("=", Node_type::Equal);
                 predict(Token_type::Equal);
                 predict(Token_type::String);
                 handlestring();
-                
+                equal.add_children(name);
+                equal.add_children(con);
+                root.add_children(equal);
                 break;
             }
             case Token_type::Print :
@@ -212,7 +215,6 @@ private:
     {   
         predict(Token_type::StringContent);
         AST_Node con = AST_Node(crnt_lex, Node_type::StringContent);
-        name.add_children(con);
         predict(Token_type::String);
         
     }
