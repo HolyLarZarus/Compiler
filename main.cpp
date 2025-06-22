@@ -169,8 +169,8 @@ private:
                     AST_Node name = AST_Node(crnt_lex, Node_type::VariableDeclare);
                     identifiers.push_back(crnt_lex);
                 }
-                AST_Node equal = AST_Node("=", Node_type::Equal);
                 predict(Token_type::Equal);
+                AST_Node equal = AST_Node("=", Node_type::Equal);
                 predict(Token_type::String);
                 handlestring();
                 equal.add_children(name);
@@ -189,7 +189,17 @@ private:
                     root.add_children(print);
                 }
                 if (crnt_type == Token_type::Identifier)
-                {
+                {   
+                    AST_Node name = AST_Node("", Node_type::Variable);
+                    auto ges = find(identifiers.begin(), identifiers.end(), crnt_lex);
+                    if (ges != identifiers.end())
+                    {
+                        AST_Node name = AST_Node(crnt_lex, Node_type::Variable);
+                    } else {
+                        cout << "Syntax Error in Line";
+                        exit(1);
+                    }
+                    root.add_children(name);
                     advance();
                 }
                 
