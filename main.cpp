@@ -151,7 +151,6 @@ private:
     Token_type crnt_type;
     string crnt_lex;
     AST_Node root = AST_Node("", Node_type::Root);
-    AST_Node name = AST_Node("", Node_type::Variable);
     AST_Node con = AST_Node("", Node_type::StringContent);
     void run()
     {
@@ -161,6 +160,7 @@ private:
             switch (crnt_type)
             {
             case Token_type::Identifier : {
+                AST_Node name = AST_Node("", Node_type::Variable);
                 auto ges = find(identifiers.begin(), identifiers.end(), crnt_lex);
                 if (ges != identifiers.end())
                 {
@@ -178,12 +178,15 @@ private:
                 root.add_children(equal);
                 break;
             }
-            case Token_type::Print :
+            case Token_type::Print : {
+                AST_Node print = AST_Node(":", Node_type::Print);
                 predict(Token_type::Bracket_open);
                 if (crnt_type == Token_type::String)
                 {
                     advance();
                     handlestring();
+                    print.add_children(con);
+                    root.add_children(print);
                 }
                 if (crnt_type == Token_type::Identifier)
                 {
@@ -196,6 +199,7 @@ private:
                 }
                 predict(Token_type::Bracket_close);
                 break;
+            }
             case Token_type::Hash :
                 advance();
                 while (crnt_type != Token_type::LineBreak)
