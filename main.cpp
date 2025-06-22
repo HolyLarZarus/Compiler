@@ -150,7 +150,7 @@ private:
     size_t i;
     Token_type crnt_type;
     string crnt_lex;
-    AST_Node root = AST_Node("", false, false, Node_type::Root);
+    AST_Node root = AST_Node("", Node_type::Root);
     void run()
     {
         
@@ -160,13 +160,15 @@ private:
             {
             case Token_type::Identifier : {
                 auto ges = find(identifiers.begin(), identifiers.end(), crnt_lex);
+                AST_Node name = AST_Node("", Node_type::Variable);
                 if (ges != identifiers.end())
                 {
-                    AST_Node name = AST_Node(crnt_lex, true, false, Node_type::Variable);
+                    AST_Node name = AST_Node(crnt_lex, Node_type::Variable);
                 } else {
-                    AST_Node name = AST_Node(crnt_lex, false, true, Node_type::Variable);
+                    AST_Node name = AST_Node(crnt_lex, Node_type::VariableDeclare);
+                    identifiers.push_back(crnt_lex);
                 }
-                
+                root.add_children(name);
                 predict(Token_type::Equal);
                 predict(Token_type::String);
                 handlestring();
