@@ -65,18 +65,27 @@ private:
             tokens_vector.push_back(Token(type, key, line));
             continue;
             }
+            if (f == '/' && src[i+1] == '/')
+            {   
+                string str = "//";
+                tokens_vector.push_back(Token(Token_type::Mulitline_begin, str, line));
+                while (src[i] == '/' && src[i+1] == '/')
+                {
+                    i++;
+                }
+                tokens_vector.push_back(Token(Token_type::Multiline_end, str, line));
+                continue;  
+            }
+            
             if (f == '#')
             {
                 string str = string(1, f);
                 tokens_vector.push_back(Token(Token_type::Hash, str, line));
                 i++;
-                string str_2;
                 while (src[i] != '\n')
                 {
-                    str_2.push_back(src[i]);
                     i++;
                 }
-                tokens_vector.push_back(Token(Token_type::HashContent, str_2, line));
                 continue;
             }
             if (f == ':')
