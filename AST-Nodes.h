@@ -12,6 +12,7 @@ enum class Node_type {
     Print,
     Variable,
     VariableDeclare,
+    Equal,
     Comment,
 };
 
