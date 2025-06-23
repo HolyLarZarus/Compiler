@@ -148,6 +148,10 @@ public:
         crnt_type = tokens[i].type;
         crnt_lex = token[i].lexem;
     }
+    AST_Node parse() {
+        run();
+        return root;
+    }
 
 private:
     vector<string> identifiers;
@@ -221,6 +225,7 @@ private:
                 break;
             }
         }
+        
     }
 
     void handlestring()
@@ -255,8 +260,7 @@ private:
         {
             cout << "Syntax Error!";
             exit(1);
-        }
-        
+        } 
     }
 };
 
