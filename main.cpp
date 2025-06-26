@@ -288,6 +288,6 @@ int main()
     Lexer lexer(input);
     vector<Token> tokens = lexer.lex();
     Parser parser(tokens);
-
+    cout << "Success!";
     return 0;
 }
