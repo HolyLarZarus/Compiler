@@ -1,6 +1,6 @@
 # Compiler
 
-Ein einfacher Compiler/Transpiler für Simplex (bitte hier einfügen), entwickelt als Lernprojekt oder Werkzeug zum Übersetzen von Simplex in Bytecode.
+Ein einfacher Compiler/Transpiler für Simplex, entwickelt als Lernprojekt oder Werkzeug zum Übersetzen von Simplex in Bytecode.
 
 ---
 
