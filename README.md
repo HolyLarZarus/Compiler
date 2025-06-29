@@ -16,10 +16,6 @@ Ein einfacher Compiler/Transpiler für Simplex (bitte hier einfügen), entwickel
 ## 🚀 Voraussetzungen
 
 - Eine moderne C/C++-Toolchain (GCC, Clang)  
-- `make` und ggf. `cmake`  
-- [Optional:] graphviz zur Visualisierung von Kontrollflussgraphen  
-- Betriebssystem: Linux/macOS/Windows (via WSL)  
-
 ---
 
 ## 🛠️ Installation & Build
